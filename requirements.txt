@@ -1,0 +1,5 @@
+Flask
+Flask-Sqlalchemy
+Flask-Migrate
+SQLAlchemy
+Pytest
