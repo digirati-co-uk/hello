@@ -18,15 +18,13 @@ def get_blobs():
     return jsonify(data)
 
 
-@bp.route('/blobs/', methods=['POST'])
+@bp.route('/blobs', methods=['POST'])
 def create_blob():
     data = request.get_json() or {}
     if 'payload' not in data:
         return bad_request('must include payload field')
 
-    blob = JsonBlob(blob_id=str(uuid4()), payload=data['payload'])
-    db.session.add(blob)
-    db.session.commit()
+    blob = JsonBlob.add(data['payload'])
     response = jsonify(blob.to_dict())
     response.status_code = 201
     response.headers['Location'] = url_for('blob.get_blob', blob_id=blob.blob_id)
