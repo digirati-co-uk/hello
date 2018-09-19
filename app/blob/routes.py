@@ -1,5 +1,4 @@
 from flask import jsonify, request, url_for
-from uuid import uuid4
 from app import db
 from app.blob import bp
 from app.blob.errors import bad_request
@@ -26,6 +25,13 @@ def create_blob():
 
     blob = JsonBlob.add(data['payload'])
     response = jsonify(blob.to_dict())
-    response.status_code = 201
     response.headers['Location'] = url_for('blob.get_blob', blob_id=blob.blob_id)
     return response, 201
+
+
+@bp.route('/blobs/<string:blob_id>', methods=['DELETE'])
+def delete_blob(blob_id):
+    blob = JsonBlob.query.get_or_404(blob_id)
+    db.session.delete(blob)
+    db.session.commit()
+    return '', 204
