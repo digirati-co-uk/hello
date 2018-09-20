@@ -10,7 +10,7 @@ def test_ping_pong(app):
 
     get_response = client.get(f'/ping/')
     assert get_response.status_code == 200
-    assert (get_response.data.decode() == "pong")
+    assert get_response.data.decode() == "pong"
 
 
 def test_ping_status(app):

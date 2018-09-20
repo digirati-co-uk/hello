@@ -1,6 +1,6 @@
 import pytest
 from flask import Flask
-from app import db, create_app
+from app import DB, create_app
 from config import TestConfig
 
 
@@ -12,6 +12,6 @@ def application() -> Flask:
     """
     app = create_app(TestConfig)
     with app.app_context():
-        db.drop_all()
-        db.create_all()
+        DB.drop_all()
+        DB.create_all()
         yield app

@@ -1,9 +1,9 @@
+import pytest
 from app.models.blob import JsonBlob
-from app import db
-from sqlalchemy.orm.exc import NoResultFound
 
 
-def test_add_get_blob(app):
+@pytest.mark.usefixtures('app')
+def test_add_get_blob():
     """
     test adding and retrieving a blob
     """

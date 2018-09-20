@@ -1,13 +1,14 @@
-from app.ping import bp
-from flask import jsonify
+from flask import Blueprint, jsonify
+
+BP = Blueprint('ping', __name__)
 
 
-@bp.route('/')
+@BP.route('/')
 def index():
     return "pong"
 
 
-@bp.route('/status')
+@BP.route('/status')
 def status():
     status_update = {
         "status": "GOOD",

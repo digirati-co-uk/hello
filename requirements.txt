@@ -3,3 +3,4 @@ Flask-Sqlalchemy
 Flask-Migrate
 SQLAlchemy
 Pytest
+flake8

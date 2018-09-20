@@ -1,11 +1,11 @@
-from app import db
 from uuid import uuid4
+from app.database import DB
 
 
-class JsonBlob(db.Model):
+class JsonBlob(DB.Model):
 
-    blob_id = db.Column(db.CHAR(36), primary_key=True)
-    payload = db.Column(db.Text())
+    blob_id = DB.Column(DB.CHAR(36), primary_key=True)
+    payload = DB.Column(DB.Text())
 
     def __repr__(self) -> str:
         return "<JsonBlob {blob_id}>".format(blob_id=self.blob_id)
@@ -14,8 +14,8 @@ class JsonBlob(db.Model):
     def add(payload):
 
         blob = JsonBlob(blob_id=str(uuid4()), payload=payload)
-        db.session.add(blob)
-        db.session.commit()
+        DB.session.add(blob)
+        DB.session.commit()
         return blob
 
     def to_dict(self):

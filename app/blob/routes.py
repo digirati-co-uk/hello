@@ -1,23 +1,24 @@
-from flask import jsonify, request, url_for
-from app import db
-from app.blob import bp
+from flask import Blueprint, jsonify, request, url_for
+from app.database import DB
 from app.blob.errors import bad_request
 from app.models.blob import JsonBlob
 
+BP = Blueprint('blob', __name__)
 
-@bp.route('/blobs/<string:blob_id>', methods=['GET'])
+
+@BP.route('/blobs/<string:blob_id>', methods=['GET'])
 def get_blob(blob_id):
     return jsonify(JsonBlob.query.get_or_404(blob_id).to_dict())
 
 
-@bp.route('/blobs', methods=['GET'])
+@BP.route('/blobs', methods=['GET'])
 def get_blobs():
 
     data = [item.to_dict() for item in JsonBlob.query.all()]
     return jsonify(data)
 
 
-@bp.route('/blobs', methods=['POST'])
+@BP.route('/blobs', methods=['POST'])
 def create_blob():
     data = request.get_json() or {}
     if 'payload' not in data:
@@ -29,9 +30,9 @@ def create_blob():
     return response, 201
 
 
-@bp.route('/blobs/<string:blob_id>', methods=['DELETE'])
+@BP.route('/blobs/<string:blob_id>', methods=['DELETE'])
 def delete_blob(blob_id):
     blob = JsonBlob.query.get_or_404(blob_id)
-    db.session.delete(blob)
-    db.session.commit()
+    DB.session.delete(blob)
+    DB.session.commit()
     return '', 204
